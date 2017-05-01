@@ -24,6 +24,8 @@ public class rooms : MonoBehaviour {
 
 	[SerializeField] GameObject parent;
 
+	[SerializeField] GameObject[] sliders;
+
 	Vector2[,] tiles;
 	bool[,] filled;
 	Vector2 limits = new Vector2(5,5);
@@ -42,9 +44,15 @@ public class rooms : MonoBehaviour {
 	int numwindow = 2;
 	List<GameObject> windows;
 
+	float[] weights;
+
+	bool generated;
+
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("start");
+		generated = false;
+//		Debug.Log ("start");
+		weights = new float[]{1f,1f,1f};
 		tiles = new Vector2[5,5];
 		filled = new bool[5, 5];
 		spots = new Vector2[(int)limits.x * (int)limits.y];
@@ -62,19 +70,40 @@ public class rooms : MonoBehaviour {
 
 		wall = Resources.LoadAll<Sprite>  ("wall");
 
-		numfurniture = Random.Range (3, 6);
-		numrug = Random.Range (0, 2); //either 0 or 1 rugs
-		numwindow = Random.Range(1,3); //1-2 windows
-
-		if (onGrid) {
-			numwindow = 0;
-		}
-		generate ();
+//		numfurniture = Random.Range (3, 6);
+//		numrug = Random.Range (0, 2); //either 0 or 1 rugs
+//		numwindow = 1;//Random.Range(1,3); //1-2 windows
+//
+//
+//		if (onGrid) {
+//			numwindow = 0;
+//		}
+//		generate ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Space)) {
+			if (!generated) {
+				numfurniture = Random.Range (3, 6);
+				numrug = Random.Range (0, 2); //either 0 or 1 rugs
+				numwindow = 1;//Random.Range(1,3); //1-2 windows
+
+				if (onGrid) {
+					numwindow = 0;
+				}
+				generate();
+
+				generated = true;
+				sliders [0].SetActive (false);
+				sliders [1].SetActive (false);
+				sliders [2].SetActive (false);
+			} else {
+				SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
+			}
+		}
+
+		if (Input.GetKeyDown (KeyCode.R)) {
 			SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
 		}
 
@@ -84,7 +113,24 @@ public class rooms : MonoBehaviour {
 		
 	}
 
+	//eeeeh not really working with restart the way i want it to
+	void clear(){
+		for (int i = 0; i < furnitures.Count; i++) {
+			Destroy (furnitures [i]);
+		}
+		for (int i = 0; i < rugs.Count; i++) {
+			Destroy (rugs [i]);
+		}
+		for (int i = 0; i < windows.Count; i++) {
+			Destroy (windows [i]);
+		}
+		furnitures.Clear ();
+		rugs.Clear ();
+		windows.Clear ();
+	}
+
 	void generate(){
+		Debug.Log ("generating");
 		furnitures = new List<GameObject>();
 		rugs = new List<GameObject> ();
 		windows = new List<GameObject> ();
@@ -106,9 +152,10 @@ public class rooms : MonoBehaviour {
 	}
 
 	void addwindow(){
+		Debug.Log ("added window");
 		GameObject temp;
 		Vector2 p;
-		if (windows.Count % 2 == 0) {
+		if (Random.Range(0f,1f)<0.5f){//windows.Count % 2 == 0) {
 			temp = windowL[Random.Range(0,windowL.Length)];
 			p = placements_wall_L [Random.Range (0, placements_wall_L.Length)].transform.position;
 		} else {
@@ -116,11 +163,12 @@ public class rooms : MonoBehaviour {
 			p = placements_wall_R [Random.Range (0, placements_wall_R.Length)].transform.position;
 		}
 		temp.GetComponent<SpriteRenderer> ().sortingOrder = -1;
-		Instantiate (temp, p, Quaternion.identity);
-		windows.Add (temp);
+		GameObject t = Instantiate (temp, p, Quaternion.identity);
+		windows.Add (t);
 	}
 
 	void addrug(){
+		Debug.Log ("added rug");
 		GameObject temp = rug[Random.Range(0,rug.Length)];
 		int w = (int)temp.GetComponent<furniture> ().getdim ().x;
 		int h = (int)temp.GetComponent<furniture> ().getdim ().y;
@@ -149,7 +197,23 @@ public class rooms : MonoBehaviour {
 	void addfurniture(){
 		int findex = Random.Range (2, furniture.Length);
 		if (furnitures.Count < 1) {	//always one bed
-			findex = Random.Range(0,2);
+			findex = Random.Range (0, 2);
+		} else {
+			float probability = Random.Range (0f, 1f);
+			float totalweight = weights [0] + weights [1] + weights [2];
+			if (probability < weights [0] / totalweight) {
+				//lamp
+				Debug.Log("lamp");
+				findex = 2+Random.Range(0,2);
+			} else if (probability < weights [1] / totalweight) {
+				//1x1
+				Debug.Log("end");
+				findex = 4+Random.Range(0,2);
+			} else {
+				//2x1
+				Debug.Log("dresser");
+				findex = 6+Random.Range(0,2);
+			}
 		}
 		GameObject temp = furniture[findex];
 		int w = (int)temp.GetComponent<furniture> ().getdim ().x;
@@ -177,7 +241,7 @@ public class rooms : MonoBehaviour {
 					GameObject f = Instantiate (temp);//, pos, Quaternion.identity);
 					Vector3 pos;
 					if (onGrid) {
-						Debug.Log ("placing on grid");
+//						Debug.Log ("placing on grid");
 						pos = new Vector3 (p.x/2f, 0f, p.y/-2f);
 						f.transform.parent = parent.transform;
 						f.transform.localRotation = Quaternion.Euler (new Vector3 (0, 0, 0));
@@ -234,15 +298,15 @@ public class rooms : MonoBehaviour {
 		for (int i = 1; i < furnitures.Count; i++) {
 			//for each furniture, check where it comes in order for the ones previous
 			int index = i; //index it's right behind
-			Debug.Log("----- now checking "+furnitures[i].name);
+//			Debug.Log("----- now checking "+furnitures[i].name);
 			for (int j = i-1; j > -1; j--) {
 //				Debug.Log ("checking " + furnitures [i].name + " against " + furnitures [j].name);
 				if (isInFront (furnitures[i],furnitures[j])) {
-					Debug.Log (furnitures[i].name+" is in front of "+furnitures[j].name);
+//					Debug.Log (furnitures[i].name+" is in front of "+furnitures[j].name);
 //					break; //only breaks out of the inner loop
 				} else {
 					//if it's behind it, send it to the index before that in the array
-					Debug.Log(furnitures[i].name+" is behind "+furnitures[j].name);
+//					Debug.Log(furnitures[i].name+" is behind "+furnitures[j].name);
 					//move it forward
 					index = j;
 				}
@@ -272,5 +336,15 @@ public class rooms : MonoBehaviour {
 		}
 
 		return infront;
+	}
+
+	public void adjustWeightLamp(float v){
+		weights [0] = v;
+	}
+	public void adjustWeight1(float v){
+		weights [1] = v;
+	}
+	public void adjustWeight2(float v){
+		weights [2] = v;
 	}
 }

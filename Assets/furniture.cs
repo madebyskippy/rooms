@@ -8,9 +8,14 @@ public class furniture : MonoBehaviour {
 	[SerializeField] int id;
 	[SerializeField] Vector2 placement;
 
+	[SerializeField] Sprite[] sprites;
+
+	SpriteRenderer sr;
+
 	// Use this for initialization
 	void Start () {
-		
+		sr = GetComponent<SpriteRenderer> ();
+		sr.sprite = sprites [Random.Range (0, sprites.Length)];
 	}
 	
 	// Update is called once per frame
