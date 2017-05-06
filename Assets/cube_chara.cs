@@ -70,6 +70,10 @@ public class cube_chara : MonoBehaviour {
 		temp.z = Mathf.Clamp (temp.z, -0.9f,0.9f);
 		temp.x = Mathf.Clamp (temp.x, -0.9f,0.9f);
 		transform.position = temp;
+		if (dir.magnitude != 0) {
+			float rotationSpeed = 25f;
+			limbs.transform.rotation = Quaternion.LookRotation (dir);
+		}
 	}
 
 	public void setRadius(float r){
