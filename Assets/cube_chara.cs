@@ -66,6 +66,7 @@ public class cube_chara : MonoBehaviour {
 
 		//to make sure it doesn't go outside of the cube but also
 		//tHIS ISN'T WORkrign nrgiht nowwwwwwww
+		//have to check local position??
 		Vector3 temp = transform.position + increment;
 		temp.z = Mathf.Clamp (temp.z, -0.9f,0.9f);
 		temp.x = Mathf.Clamp (temp.x, -0.9f,0.9f);

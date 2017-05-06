@@ -24,6 +24,9 @@ public class cube_manager : MonoBehaviour {
 			spin = 0;
 		}
 
-		room.transform.Rotate (new Vector3 (0f, spin, 0f));
+		float roty = room.transform.rotation.eulerAngles.y;
+		if (roty+spin > 0 && roty+spin < 90) {
+			room.transform.Rotate (new Vector3 (0f, spin, 0f));
+		}
 	}
 }

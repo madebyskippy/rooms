@@ -1,0 +1,20 @@
+# This file uses centimeters as units for non-parametric coordinates.
+
+mtllib window.mtl
+g default
+v -7.777778 8.950617 0.000000
+v 10.555555 4.753087 0.000000
+v 7.407407 -8.827161 0.000000
+v -7.654321 -2.839506 0.000000
+vt 0.000000 0.000000
+vt 1.000000 0.000000
+vt 0.997986 0.741202
+vt 0.011935 0.640365
+vn 0.000000 0.000000 -1.000000
+vn 0.000000 0.000000 -1.000000
+vn 0.000000 0.000000 -1.000000
+vn 0.000000 0.000000 -1.000000
+s off
+g polySurface1
+usemtl initialShadingGroup
+f 1/1/1 2/2/2 3/3/3 4/4/4
