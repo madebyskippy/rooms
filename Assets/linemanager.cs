@@ -19,10 +19,10 @@ public class linemanager : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.RightArrow)) {
 			move = true;
-			direction = 1;
+			direction = -1;
 		}if (Input.GetKeyDown (KeyCode.LeftArrow)) {
 			move = true;
-			direction = -1;
+			direction = 1;
 		}if (Input.GetKeyUp (KeyCode.RightArrow)) {
 			move = false;
 		}if (Input.GetKeyUp (KeyCode.LeftArrow)) {

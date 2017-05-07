@@ -53,19 +53,30 @@ public class lineobject : MonoBehaviour {
 		if (index == 0) {
 			if (current + direction < 0) {
 //				Debug.Log ("nothing before this");
-				return;
-			}if (current + direction > views.Count-1) {
+//				return;
+				target = views.Count-1;
+			}else if (current + direction > views.Count-1) {
 //				Debug.Log ("nothing after this");
-				return;
+//				return;
+				target = 0;
+			}else {
+				target = current + direction;
 			}
-			target = current + direction;
-//			Debug.Log ("switching target to "+target+" from current "+current+" and direction "+direction);
+			Debug.Log ("switching target to "+target+" from current "+current+" and direction "+direction);
 		}
 
 		if (target > current) {
-			index += direction;
+			if (target > current + 1) {
+				index -= direction;
+			} else {
+				index += direction;
+			}
 		} else {
-			index -= direction;
+			if (target < current - 1) {
+				index += direction;
+			} else {
+				index -= direction;
+			}
 		}
 
 		//actually change the points
@@ -78,7 +89,7 @@ public class lineobject : MonoBehaviour {
 		if (index >= duration) {
 			current = target;
 			index = 0;
-//			Debug.Log ("switching current to "+current+", index to "+index+", "+views.Count);
+			Debug.Log ("switching current to "+current+", index to "+index+", "+views.Count);
 		}
 	}
 }
