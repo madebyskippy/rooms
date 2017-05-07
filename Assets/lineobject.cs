@@ -62,7 +62,7 @@ public class lineobject : MonoBehaviour {
 			}else {
 				target = current + direction;
 			}
-			Debug.Log ("switching target to "+target+" from current "+current+" and direction "+direction);
+//			Debug.Log ("switching target to "+target+" from current "+current+" and direction "+direction);
 		}
 
 		if (target > current) {
@@ -89,7 +89,7 @@ public class lineobject : MonoBehaviour {
 		if (index >= duration) {
 			current = target;
 			index = 0;
-			Debug.Log ("switching current to "+current+", index to "+index+", "+views.Count);
+//			Debug.Log ("switching current to "+current+", index to "+index+", "+views.Count);
 		}
 	}
 }

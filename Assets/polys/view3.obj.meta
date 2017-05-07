@@ -14,6 +14,16 @@ ModelImporter:
     100012: polySurface7
     100014: polySurface8
     100016: //RootNode
+    100018: polySurface10
+    100020: polySurface9
+    100022: bed
+    100024: blanket
+    100026: corner
+    100028: curtain
+    100030: leg
+    100032: pillow
+    100034: table
+    100036: window
     400000: polySurface1
     400002: polySurface2
     400004: polySurface3
@@ -23,6 +33,16 @@ ModelImporter:
     400012: polySurface7
     400014: polySurface8
     400016: //RootNode
+    400018: polySurface10
+    400020: polySurface9
+    400022: bed
+    400024: blanket
+    400026: corner
+    400028: curtain
+    400030: leg
+    400032: pillow
+    400034: table
+    400036: window
     2300000: polySurface1
     2300002: polySurface2
     2300004: polySurface3
@@ -31,6 +51,16 @@ ModelImporter:
     2300010: polySurface6
     2300012: polySurface7
     2300014: polySurface8
+    2300016: polySurface10
+    2300018: polySurface9
+    2300020: bed
+    2300022: blanket
+    2300024: corner
+    2300026: curtain
+    2300028: leg
+    2300030: pillow
+    2300032: table
+    2300034: window
     3300000: polySurface1
     3300002: polySurface2
     3300004: polySurface3
@@ -39,6 +69,16 @@ ModelImporter:
     3300010: polySurface6
     3300012: polySurface7
     3300014: polySurface8
+    3300016: polySurface10
+    3300018: polySurface9
+    3300020: bed
+    3300022: blanket
+    3300024: corner
+    3300026: curtain
+    3300028: leg
+    3300030: pillow
+    3300032: table
+    3300034: window
     4300000: polySurface1
     4300002: polySurface2
     4300004: polySurface3
@@ -47,6 +87,16 @@ ModelImporter:
     4300010: polySurface6
     4300012: polySurface7
     4300014: polySurface8
+    4300016: polySurface10
+    4300018: polySurface9
+    4300020: bed
+    4300022: blanket
+    4300024: corner
+    4300026: curtain
+    4300028: leg
+    4300030: pillow
+    4300032: table
+    4300034: window
   materials:
     importMaterials: 1
     materialName: 0
