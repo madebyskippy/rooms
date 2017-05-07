@@ -50,16 +50,23 @@ public class lineobject : MonoBehaviour {
 
 	public void step(int direction){
 		//figure out what to change the points to
-		index += direction;
-
-		Debug.Log (index);
-		if (index < 0) {
-			index = 0;
-		} if (index > duration) {
-			index = 0;
-			current = target;
+		if (index == 0) {
+			if (current + direction < 0) {
+//				Debug.Log ("nothing before this");
+				return;
+			}if (current + direction > views.Count-1) {
+//				Debug.Log ("nothing after this");
+				return;
+			}
+			target = current + direction;
+//			Debug.Log ("switching target to "+target+" from current "+current+" and direction "+direction);
 		}
 
+		if (target > current) {
+			index += direction;
+		} else {
+			index -= direction;
+		}
 
 		//actually change the points
 		for (int i = 0; i < verts.Length; i++) {
@@ -67,5 +74,11 @@ public class lineobject : MonoBehaviour {
 			verts[i] = Vector3.Lerp(views[current][i], views[target][i], (float)index/(float)duration);
 		}
 		line.SetPositions (verts);
+
+		if (index >= duration) {
+			current = target;
+			index = 0;
+//			Debug.Log ("switching current to "+current+", index to "+index+", "+views.Count);
+		}
 	}
 }
